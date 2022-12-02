@@ -56,6 +56,7 @@ jobs:
               echo "Sending notification to $CHANNEL"
               URL=$(eval "echo \$$CHANNEL")
               echo "Webhook URL: $URL"
+              jinja -u debug -d "$FILE" "$TEMPLATE_PATH" 
               jinja -u debug -d "$FILE" "$TEMPLATE_PATH" | curl -X POST -H "$HEADERS" --data @- "$URL"
             done
           done
