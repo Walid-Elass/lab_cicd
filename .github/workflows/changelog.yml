@@ -8,7 +8,7 @@ jobs:
     name: Get Added Changelog Files
     runs-on: ubuntu-latest
     outputs: 
-      added_changelogs: ${{steps.diff_changelogs.outputs.added_changelogs}}
+      added_changelogs: ${{ steps.diff_changelogs.outputs.added_changelogs}}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -18,7 +18,7 @@ jobs:
       - id: diff_changelogs
         if : ${{steps.files.outputs.added}}
         run: |
-          ADDED=$(echo ${{steps.files.outputs.added}})
+          ADDED=$(echo ${{ steps.files.outputs.added}})
           FORMATED=$(echo $ADDED | tr ' ' '\n')
           REGX='^(changelog)/(\w+\.json)$''
           FILTERED=$ (echo $FORMATED | grep -E $REGX)
@@ -40,9 +40,9 @@ jobs:
           pip install pathlib
           pip install jinja-cli
       - name: Send ChangeLog Notifications
-          env:
-            SECURITY: ${{ secrets.TEAMS_WH_SECURITY}}
-            SUPPORT: ${{ secrets.TEAMS_WH_SUPPORT}}
+        env:
+          SECURITY: ${{ secrets.TEAMS_WH_SECURITY}}
+          SUPPORT: ${{ secrets.TEAMS_WH_SUPPORT}}
           run: |
             TEMPLATE_PATH="changelog/.template/default.j2"
             HEADERS='Content-type: application/json'
