@@ -26,7 +26,7 @@ jobs:
           echo "added=$FILTERED" >> $GITHUB_OUTPUT
   notify:
     needs: get_changelogs
-    if : ${{ steps.diff_changelogs.outputs.added}}
+    if : ${{ needs.diff_changelogs.outputs.added}}
     name: Send ChangeLog Notifications
     runs-on: ubuntu-latest
     steps:
