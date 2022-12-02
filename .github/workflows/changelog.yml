@@ -8,7 +8,7 @@ jobs:
     name: Get Added Changelog Files
     runs-on: ubuntu-latest
     outputs: 
-      added_changelogs: ${{ steps.diff_changelogs.outputs.added_changelogs}}
+      added: ${{ steps.diff_changelogs.outputs.added}}
     steps:
       - uses: actions/checkout@v2
         with:
