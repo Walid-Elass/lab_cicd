@@ -43,19 +43,19 @@ jobs:
         env:
           SECURITY: ${{ secrets.TEAMS_WH_SECURITY}}
           SUPPORT: ${{ secrets.TEAMS_WH_SUPPORT}}
-          run: |
-            TEMPLATE_PATH="changelog/.template/default.j2"
-            HEADERS='Content-type: application/json'
-            FILTERED=${{ needs.get_changelogs.outputs.added}}
-            echo "Detected changelog update: $FILTERED"
-            for FILE in $FILTERED; do
-              echo "Processing changelog: $FILE"
-              CHANNELS=$(jq -r '.notify[]' $FILE)
-              echo "Found channels: $CHANNELS"
-              for CHANNEL in $CHANNELS; do
-                echo "Sending notification to $CHANNEL"
-                URL=$(eval "echo \$$CHANNEL")
-                echo "Webhook URL: $URL"
-                jinja -u debug -d "$FILE" "$TEMPLATE_PATH" | curl -X POST -H "$HEADERS" --data @- "$URL"
-              done
+        run: |
+          TEMPLATE_PATH="changelog/.template/default.j2"
+          HEADERS='Content-type: application/json'
+          FILTERED=${{ needs.get_changelogs.outputs.added}}
+          echo "Detected changelog update: $FILTERED"
+          for FILE in $FILTERED; do
+            echo "Processing changelog: $FILE"
+            CHANNELS=$(jq -r '.notify[]' $FILE)
+            echo "Found channels: $CHANNELS"
+            for CHANNEL in $CHANNELS; do
+              echo "Sending notification to $CHANNEL"
+              URL=$(eval "echo \$$CHANNEL")
+              echo "Webhook URL: $URL"
+              jinja -u debug -d "$FILE" "$TEMPLATE_PATH" | curl -X POST -H "$HEADERS" --data @- "$URL"
             done
+          done
